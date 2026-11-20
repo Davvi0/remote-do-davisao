@@ -32,6 +32,18 @@ Abra `http://localhost:5173` no computador ou o IP exibido no terminal no celula
 
 ### HTTPS para o app publicado
 
+No Windows com Git instalado, o projeto inclui um assistente:
+
+```sh
+npm run start:https
+```
+
+Ele cria uma CA **exclusiva deste aplicativo** e um certificado de servidor em `%LOCALAPPDATA%/remote-do-davisao/certs`, fora do repositório. Não altera a confiança do Windows nem instala nada no iPhone. O servidor HTTPS usa a porta 5443 e autoriza a origem do GitHub Pages. Para escolher o IP: `powershell -File scripts/start-local-https.ps1 -IPAddress 192.168.0.7`.
+
+Instale o certificado público `root-cert.cer` no iPhone e habilite sua confiança em **Ajustes → Geral → Sobre → Ajustes de Confiança de Certificado**. O perfil baixado pode aparecer em Geral → VPN e Gerenciamento de Dispositivo. Para disponibilizar o download pelo servidor HTTP já existente, inicie-o com `LOCAL_CA_CERT` apontando para esse arquivo. O link será `http://IP:5173/setup/local-ca.cer`. A confiança nesse certificado é uma ação manual no iPhone, não pode ser concluída pelo app. Nunca compartilhe os arquivos `*-key.pem`.
+
+Após confiar, abra `https://IP:5443` no Safari e configure esse endereço em **Servidor local** no app publicado. Se o firewall bloquear 5443, permita Node somente na rede privada. O endereço IP do computador precisa permanecer estável; se mudar, execute novamente o assistente e atualize a configuração no app. A CA é reutilizada, enquanto o certificado do servidor é renovado a cada execução do assistente.
+
 Use certificado de uma CA confiável no iPhone. Uma opção local é [mkcert](https://github.com/FiloSottile/mkcert): gere um certificado para o IP/nome do computador e instale **somente o certificado público da CA** no iPhone. No iOS, instale o perfil e habilite a confiança em Ajustes → Geral → Sobre → Ajustes de Confiança de Certificado. Não compartilhe a chave privada da CA. Evite túneis públicos.
 
 Exemplo no PowerShell, substituindo os caminhos e o IP pelos seus:

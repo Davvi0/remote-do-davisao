@@ -15,6 +15,9 @@ const sessions=new Map();
 const send=(res,status,data)=>{res.writeHead(status,{'Content-Type':'application/json','Cache-Control':'no-store'});res.end(JSON.stringify(data));};
 async function body(req){let raw='';for await(const chunk of req){raw+=chunk;if(raw.length>4096)throw new Error('Solicitação muito grande.');}return JSON.parse(raw||'{}');}
 const handler=async(req,res)=>{
+  if(req.method==='GET'&&req.url==='/setup/local-ca.cer'&&process.env.LOCAL_CA_CERT){
+    try{const certificate=await readFile(process.env.LOCAL_CA_CERT);res.writeHead(200,{'Content-Type':'application/x-x509-ca-cert','Content-Disposition':'attachment; filename="remote-do-davisao-ca.cer"','Cache-Control':'no-store'});res.end(certificate);}catch{res.writeHead(404);res.end('Certificado local indisponivel.');}return;
+  }
   if(!req.url.startsWith('/api/')) {
     if(vite)return vite.middlewares(req,res);
     try {
