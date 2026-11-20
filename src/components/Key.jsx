@@ -1,0 +1,1 @@
+export default function Key({icon:Icon,label,onClick,disabled,className='',children}){return <button type="button" className={`key ${className}`} aria-label={label} title={label} onClick={onClick} disabled={disabled}>{Icon&&<Icon size={23} strokeWidth={1.7}/ >}{children}</button>;}

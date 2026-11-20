@@ -1,0 +1,15 @@
+import { useState,useEffect,useRef } from 'react';
+import { api,demoDevice,demoConnection } from '../services/connection';
+function saved(){try{return JSON.parse(localStorage.getItem('remote-history')||'[]').filter(x=>x.ip&&x.name).slice(0,6);}catch{return [];}}
+export function useRemote(){
+  const [device,setDevice]=useState(null),[status,setStatus]=useState('idle'),[error,setError]=useState(''),[busy,setBusy]=useState(false),[devices,setDevices]=useState([]),[history,setHistory]=useState(saved),[last,setLast]=useState('Pronto para controlar'),[session,setSession]=useState(null);
+  const generation=useRef(0),pending=useRef(false);
+  async function connect(ip,brand=device?.brand||'Samsung'){const gen=++generation.current;setBusy(true);setError('');try{const result=await api('connect',{ip,brand,previous:session});if(gen!==generation.current)return;setDevice(result.device);setSession(result.session);setStatus('connected');setLast('Conexão estabelecida');setHistory(old=>{const next=[result.device,...old.filter(x=>x.id!==result.device.id)].slice(0,6);try{localStorage.setItem('remote-history',JSON.stringify(next));}catch{}return next;});}catch(e){if(gen===generation.current){setError(e.message);setStatus('offline');}}finally{if(gen===generation.current)setBusy(false);}}
+  useEffect(()=>{if(!device||device.id==='demo'||!session)return;let alive=true;const timer=setInterval(async()=>{try{await api(`sessions/${session}`);if(alive){setStatus('connected');setError('');}}catch{if(alive)setStatus('offline');}},7000);return()=>{alive=false;clearInterval(timer);};},[device,session]);
+  useEffect(()=>{if(status!=='offline'||!device||device.id==='demo'||device.brand==='Samsung')return;const timer=setTimeout(()=>connect(device.ip),6000);return()=>clearTimeout(timer);},[status,device,busy]);
+  async function scan(){setBusy(true);setError('');try{const result=await api('discover');setDevices(result.devices);if(!result.devices.length)setError('Nenhuma TV compatível encontrada. Tente adicionar pelo IP.');}catch(e){setError(e.message);}finally{setBusy(false);}}
+  async function command(key,label){if(pending.current||status!=='connected')return;pending.current=true;const gen=generation.current;navigator.vibrate?.(8);try{if(device.id==='demo')await demoConnection.command(key);else await api(`sessions/${session}/command`,{command:key});if(gen===generation.current)setLast(`${device.id==='demo'?'Simulado':'Enviado'} · ${label}`);}catch(e){if(gen===generation.current){setError(e.message);setStatus('offline');}}finally{pending.current=false;}}
+  function disconnect(){generation.current++;if(session)api(`sessions/${session}`,undefined,'DELETE').catch(()=>{});setSession(null);setDevice(null);setStatus('idle');setError('');setBusy(false);}
+  function demo(){generation.current++;setDevice(demoDevice);setSession(null);setStatus('connected');setError('');setLast('Nenhum comando será enviado a uma TV');}
+  return {device,status,error,busy,devices,history,last,connect,scan,command,disconnect,demo};
+}

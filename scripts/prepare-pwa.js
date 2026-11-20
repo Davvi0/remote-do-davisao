@@ -1,0 +1,10 @@
+import {readFile,writeFile,readdir} from 'node:fs/promises';
+import {resolve} from 'node:path';
+import {createHash} from 'node:crypto';
+const target=resolve(process.argv[2]||'dist');
+const assets=(await readdir(resolve(target,'assets'))).map(name=>'assets/'+name);
+const id=createHash('sha256').update(await readFile(resolve(target,'index.html'))).update(assets.join(',')).digest('hex').slice(0,12);
+const worker=(await readFile(resolve(target,'sw.js'),'utf8')).replace('__BUILD_ID__',id).replace('/* BUILD_ASSETS */ []',JSON.stringify(assets));
+await writeFile(resolve(target,'sw.js'),worker);
+await writeFile(resolve(target,'.nojekyll'),'');
+console.log(`PWA ${id}: ${assets.length} assets preparados em ${process.argv[2]||'dist'}.`);

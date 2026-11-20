@@ -1,0 +1,127 @@
+/* Material and rhythm refinements shared by connection and remote screens. */
+:root {
+  --accent: #d6ecc0;
+  --muted: #a5ada9;
+  --surface: #191d1c;
+  color: #f1f3ee;
+  background: #111513;
+  color-scheme: dark;
+}
+::selection { background: #d6ecc0; color: #182118; }
+html { scrollbar-color: #444d46 #111513; }
+body { background: #111513; }
+input, select { caret-color: var(--accent); }
+.screen { max-width: 390px; }
+.remote-header { gap: 18px; align-items: center; }
+.remote-header h1 { font-size: 30px; font-weight: 550; letter-spacing: -.035em; line-height: 1.15; }
+.connection { margin-top: 9px; font-size: 12px; color: #aab5ac; }
+.connection i { width: 6px; height: 6px; }
+.remote-header > .key { background: #1d2420; border-color: #39443b; color: #d5dfd5; }
+.demo-banner { background: transparent; border: 1px dashed #3c493d; color: #aaba9f; border-radius: 12px; padding: 9px 11px; }
+.demo-banner > span { background: #293626; border: 0; color: #d6ecc0; font-size: 9px; }
+.power-row { margin: 22px 0 8px; }
+.power-row > span { color: #a0aaa3; font-size: 11px; }
+.power.key { background: #352b25; color: #f2bc9d; border: 1px solid #594035; box-shadow: inset 0 1px 0 #ffffff09; }
+.key { background: #252e28; color: #e2e9df; }
+.dpad {
+  background: linear-gradient(155deg, #303932, #202922 70%);
+  border: 1px solid #424e44;
+  box-shadow: inset 0 2px 2px #ffffff09, 0 16px 28px #0003;
+}
+.dpad::before { content: ''; position: absolute; inset: 12px; border: 1px solid #ffffff04; border-radius: 50%; pointer-events: none; }
+.dpad .key { color: #c4cfc1; }
+.dpad .key > svg { width: 25px; height: 25px; }
+.dpad .ok {
+  background: linear-gradient(150deg, #e6f3d9, #c8dfb2);
+  border: 0;
+  box-shadow: inset 0 2px 0 #ffffff60, 0 5px 12px #0005;
+}
+.ok-label { color: #293724; font-size: 17px; font-weight: 650; letter-spacing: .02em; }
+.dpad .ok:active:not(:disabled) { box-shadow: inset 0 2px 7px #30432950, 0 1px 3px #0003; }
+.navigation { padding: 0 19px; }
+.navigation .key { position: relative; border-radius: 50%; color: #c9d3c7; }
+.navigation .key:nth-child(2) { background: #29352b; color: #e6f0dd; }
+.navigation .key::after { content: attr(aria-label); position: absolute; top: calc(100% + 5px); white-space: nowrap; font-size: 10px; font-weight: 400; color: #a4afa5; }
+.rockers { margin-top: 38px; gap: 27px; }
+.rocker { background: linear-gradient(160deg, #262f28, #1d251f); border-color: #3b463d; box-shadow: inset 0 1px 0 #ffffff08; width: 78px; }
+.rocker > span { color: #b9c5b7; gap: 6px; }
+.rocker small { font-size: 9px; letter-spacing: .08em; }
+.rocker .key { color: #e2e9dc; }
+.middle-keys .key { background: #252e28; border: 1px solid #3b463d; }
+.command-status { color: #b0bbae; font-size: 11px; min-height: 45px; }
+.status-dot { background: #9cb68e; }
+.remote-footer { color: #a0ada1; font-size: 9px; letter-spacing: .08em; border-color: #303a32; }
+.brand { letter-spacing: .14em; font-weight: 600; }
+.local { color: #a0ada1; font-size: 9px; letter-spacing: .1em; }
+.intro { padding-top: 44px; }
+.intro h1 { font-size: 56px; font-weight: 550; letter-spacing: -.04em; line-height: 1.03; }
+.sub { font-size: 16px; color: #acb6ae; line-height: 1.55; }
+.tv-art { width: 94px; height: 82px; align-items: center; justify-content: center; margin-bottom: 28px; background: #1c251e; border: 1px solid #354137; border-radius: 23px; color: #c4d6bb; }
+.tv-art > svg { width: 49px; height: 49px; }
+.signal { top: -8px; right: -9px; border-color: #111513; border-width: 4px; padding: 6px; }
+.primary { border-radius: 16px; min-height: 58px; box-shadow: inset 0 1px 0 #ffffff50, 0 6px 16px #0002; font-size: 15px; }
+.hint { color: #a4afa5; font-size: 12px; }
+.device { background: #1d2620; border-color: #354137; padding: 16px; gap: 14px; }
+.device-icon { display: flex; padding: 10px; border-radius: 12px; background: #2a382b; }
+.device strong { font-size: 15px; }
+.device small { color: #acb8ad; font-size: 11px; line-height: 1.45; }
+.device-list .eyebrow { letter-spacing: .08em; color: #a8b6a9; }
+.manual { font-size: 13px; min-height: 44px; margin: 18px auto; }
+.connect-footer { border-color: #303a32; }
+.connect-footer p { color: #a2ada4; line-height: 1.5; font-size: 11px; }
+.connect-footer .text-button { min-height: 44px; font-size: 13px; }
+form { padding: 18px; border-radius: 16px; background: #1a221c; }
+.input-row { flex-wrap: wrap; }
+.input-row input { flex: 1 1 140px; }
+.small-primary { min-height: 46px; padding-inline: 15px; }
+@media (hover: hover) and (pointer: fine) {
+  .key:hover:not(:disabled) { background: #364539; }
+  .dpad .ok:hover:not(:disabled) { background: #e3f2d4; }
+  .primary:hover { background: #e3f2d4; }
+  .device:hover { background: #253128; border-color: #677d61; }
+}
+@media (min-width: 650px) {
+  body { background: #0c100d; }
+  .screen { max-width: 430px; background: #151b17; border: 1px solid #343e35; border-radius: 36px; padding: 32px; box-shadow: 0 28px 80px #0004; }
+  .signal { border-color: #151b17; }
+  .remote .rockers { margin-top: 36px; }
+}
+@media (max-width: 649px) {
+  .remote .navigation { margin-bottom: 0; }
+  .remote .rockers { margin-top: 35px; }
+  .remote .command-status { min-height: 43px; }
+}
+@media (max-height: 760px) and (max-width: 649px) {
+  .remote-header h1 { font-size: 27px; }
+  .remote .power-row { margin: 10px 0 5px; }
+  .remote .navigation { margin-bottom: 0; }
+  .remote .navigation .key::after { top: calc(100% + 2px); font-size: 9px; }
+  .remote .rockers { margin-top: 23px; }
+  .remote .command-status { min-height: 32px; }
+  .remote .remote-footer { padding-top: 10px; }
+  .intro h1 { font-size: 48px; }
+  .intro { padding-top: 26px; }
+  .tv-art { margin-bottom: 20px; width: 80px; height: 68px; }
+}
+/* Match the connection flow to the blue remote identity. */
+:root{--accent:#a6c8ff;--muted:#a7b2c4;background:#141a23}
+body,.shell{background:#141a23}
+.connect{color:#edf1f8}
+.connect .brand{font-size:13px;letter-spacing:-.02em;gap:8px}
+.connect .local{font-size:8px;letter-spacing:.06em;color:#a7b6ce}
+.connect .intro h1{font-size:52px;letter-spacing:-.04em}
+.connect .tv-art{background:#253044;border-color:#445572;color:#c4d9f7}
+.connect .signal{background:#a6c8ff;color:#203754;border-color:#141a23}
+.connect .primary,.connect .small-primary{background:#b9d4ff;color:#203754}
+.connect .sub,.connect .hint,.connect-footer>span{color:#aebbd0}
+.connect .device{background:#222d3d;border-color:#3b4d67}
+.connect .device-icon{background:#31425b;color:#c9dfff}
+.connect .device small,.connect .device-list .eyebrow{color:#b4c3d8}
+.connect .connect-footer{border-color:#354154}
+.connect .connect-footer p{color:#a7b7d0}
+.connect form{background:#202b3b}
+.connect select,.connect input{background:#182231;border-color:#465975}
+.remote-v2 .r-wordmark{font-size:16px;letter-spacing:-.03em;gap:6px}
+@media(min-width:650px){body,.shell{background:#0b1018}.connect.screen{background:#171e29;border-color:#3b4658}.connect .signal{border-color:#171e29}}
+@media(max-height:760px) and (max-width:649px){.connect .intro h1{font-size:46px}}
+@media(hover:hover) and (pointer:fine){.connect .primary:hover{background:#d2e4ff}.connect .device:hover{background:#2c3c52;border-color:#7596c4}}
