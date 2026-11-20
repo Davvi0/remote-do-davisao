@@ -1,6 +1,6 @@
 const PREFIX='remote-davisao-';
-const CACHE=PREFIX+'e596415b5b1f';
-const ASSETS=["assets/index-EOIjq3-_.css","assets/index-Yy4vE1NR.js"];
+const CACHE=PREFIX+'1e9d7c481781';
+const ASSETS=["assets/index-CeixNMMg.js","assets/index-EOIjq3-_.css"];
 const base=self.registration.scope;
 const url=path=>new URL(path,base).href;
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(['./','manifest.webmanifest','apple-touch-icon.png','icon-192.png','icon-512.png',...ASSETS].map(url))).then(()=>self.skipWaiting())));

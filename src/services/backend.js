@@ -1,4 +1,5 @@
 export const hostedBuild=import.meta.env.BASE_URL!=='/';
+export const defaultBackend='https://192.168.0.7:5443';
 const KEY='davisao-local-server';
 export function getBackend(){try{return localStorage.getItem(KEY)||'';}catch{return '';}}
 export function validateBackend(value){
